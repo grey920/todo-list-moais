@@ -1,0 +1,1 @@
+INSERT INTO `USER` VALUES ( '000000', 'grey92', '1234qwer', 'aaa@gmail.com', '그레이', 'J');

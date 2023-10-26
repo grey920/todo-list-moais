@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sample.todo.user.repository.UserMapper">
+
+    <select id="getUserByOid" resultType="User">
+        SELECT
+            user_oid
+            , id
+            , password
+            , email
+            , nick_name
+            , status
+        FROM user
+        WHERE user_oid = #{userOid}
+    </select>
+
+    <select id="listAllUser" resultType="User">
+        SELECT
+            user_oid
+             , id
+             , password
+             , email
+             , nick_name
+             , status
+        FROM user
+    </select>
+
+    <insert id="insertUser" parameterType="User">
+        INSERT INTO user ( user_oid, id, password,  email, nick_name, status )
+        VALUES ( #{userOid}, #{id}, #{password},  #{email}, #{nickName}, #{status} )
+    </insert>
+
+</mapper>
