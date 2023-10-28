@@ -209,7 +209,7 @@ class UserServiceTest {
 
     @Test
     @DisplayName( "회원 정보 수정 > 회원 상태 수정" )
-    public void updateUser2(){
+    public void updateUserStatus(){
 
         /* Given */
         UserCnd cnd = new UserCnd();
@@ -223,7 +223,7 @@ class UserServiceTest {
         userGrey.setStatus( STATUS_WITHDRAW );
 
         /* When */
-        User result = userService.updateUser( userGrey );
+        User result = userService.updateUserStatus( userGrey );
 
         /* Then */
         Assertions.assertThat( result ).isNotNull();

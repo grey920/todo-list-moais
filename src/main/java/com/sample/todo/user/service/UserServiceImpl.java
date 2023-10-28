@@ -17,7 +17,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
 
-//    @Resource(name = "userMapper")
     private final UserMapper userMapper;
 
     /**

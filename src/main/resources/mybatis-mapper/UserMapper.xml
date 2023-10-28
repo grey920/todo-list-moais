@@ -23,16 +23,6 @@
     </sql>
 
     <select id="getUser" parameterType="UserCnd" resultType="User">
-        <!--SELECT
-            user_oid
-             , id
-             , password
-             , email
-             , nick_name
-             , status
-        FROM user
-        WHERE 1=1
-            <include refid="searchCnd"/>-->
         SELECT *
         FROM
         (

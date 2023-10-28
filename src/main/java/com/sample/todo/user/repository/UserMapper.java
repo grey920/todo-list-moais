@@ -25,14 +25,6 @@ public interface UserMapper {
     public User getUserByOid( String userOid );
 
     /**
-     * 회원가입시 아이디 중복 검사
-     *
-     * @param id
-     * @return
-     */
-    public boolean hasDuplicatedId( String id );
-
-    /**
      * 회원 리스트 조회
      * @param cnd 회원 검색 조건
      * @return 회원 리스트
