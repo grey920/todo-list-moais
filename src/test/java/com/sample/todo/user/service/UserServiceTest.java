@@ -45,7 +45,7 @@ class UserServiceTest {
         Assertions.assertThat( user.getId() ).isEqualTo( userCnd.getId() );
         Assertions.assertThat( user.getStatus() ).isEqualTo( userCnd.getStatus() );
 
-        System.out.println( "user = " + user );
+        log.info( "user = {}" , user );
 
     }
 
@@ -63,7 +63,7 @@ class UserServiceTest {
 
         /* Then */
         Assertions.assertThat( user.getUserOid() ).isNull();
-        System.out.println( "user = " + user ); // Null 사용자입니다. 출력
+        log.info( "user = {}", user ); // Null 사용자입니다. 출력
 
     }
 
@@ -136,7 +136,7 @@ class UserServiceTest {
         /* When */
         Map< String, Object > result = userService.login( user );
 
-        System.out.println( "result = " + result );
+        log.info( "result = {}" , result );
 
         /* Then */
         Assertions.assertThat( ( Boolean ) result.get( "success" ) ).isEqualTo( true );
@@ -156,7 +156,7 @@ class UserServiceTest {
         /* When */
         Map< String, Object > result = userService.login( user );
 
-        System.out.println( "result = " + result );
+        log.info( "result = {}" , result );
 
         /* Then */
         Assertions.assertThat( ( Boolean ) result.get( "success" ) ).isEqualTo( false );
@@ -176,7 +176,7 @@ class UserServiceTest {
         /* When */
         Map< String, Object > result = userService.login( user );
 
-        System.out.println( "result = " + result );
+        log.info( "result = {}" , result );
 
         /* Then */
         Assertions.assertThat( ( Boolean ) result.get( "success" ) ).isEqualTo( false );
@@ -196,7 +196,7 @@ class UserServiceTest {
         /* When */
         Map< String, Object > result = userService.login( user );
 
-        System.out.println( "result = " + result );
+        log.info( "result = {}" , result );
 
         /* Then */
         Assertions.assertThat( ( Boolean ) result.get( "success" ) ).isEqualTo( false );
