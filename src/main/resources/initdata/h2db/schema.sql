@@ -3,7 +3,7 @@ DROP TABLE IF EXISTS `USER_STATUS_HIST`;
 DROP TABLE IF EXISTS `ITEM`;
 
 CREATE TABLE `USER` (
-                        `user_oid`	varchar(11)	    NOT NULL	COMMENT '회원 OID (pk)',
+                        `user_oid`	varchar(255)	NOT NULL	COMMENT '회원 OID (pk)',
                         `id`	    varchar(255)	NOT NULL	COMMENT '회원 ID',
                         `password`	varchar(255)	NOT NULL	COMMENT '비밀번호',
                         `email`	    varchar(255)	NULL	    COMMENT '이메일',

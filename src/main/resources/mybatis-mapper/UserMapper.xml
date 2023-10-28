@@ -4,6 +4,52 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.sample.todo.user.repository.UserMapper">
+    <sql id="searchCnd">
+        <if test="userOid != null and userOid != ''">
+            AND user_oid = #{userOid}
+        </if>
+
+        <if test="id != null and id != ''">
+            AND id = #{id}
+        </if>
+
+        <if test="email != null and email != ''">
+            AND email = #{email}
+        </if>
+
+        <if test="nickName != null and nickName != ''">
+            AND nick_name = #{nickName}
+        </if>
+    </sql>
+
+    <select id="getUser" parameterType="UserCnd" resultType="User">
+        <!--SELECT
+            user_oid
+             , id
+             , password
+             , email
+             , nick_name
+             , status
+        FROM user
+        WHERE 1=1
+            <include refid="searchCnd"/>-->
+        SELECT *
+        FROM
+        (
+            SELECT
+                ROW_NUMBER() OVER( ORDER BY USER_OID DESC ) RNUM
+                , user_oid
+                , id
+                , password
+                , email
+                , nick_name
+                , status
+            FROM user
+            WHERE 1=1
+                <include refid="searchCnd"/>
+        ) X
+        WHERE RNUM = 1
+    </select>
 
     <select id="getUserByOid" resultType="User">
         SELECT
@@ -17,7 +63,8 @@
         WHERE user_oid = #{userOid}
     </select>
 
-    <select id="listAllUser" resultType="User">
+    <select id="listAllUser" parameterType="UserCnd" resultType="User">
+        /* listAllUser 회원 조회*/
         SELECT
             user_oid
              , id
@@ -26,11 +73,26 @@
              , nick_name
              , status
         FROM user
+        WHERE 1=1
+            <include refid="searchCnd"/>
     </select>
 
     <insert id="insertUser" parameterType="User">
         INSERT INTO user ( user_oid, id, password,  email, nick_name, status )
         VALUES ( #{userOid}, #{id}, #{password},  #{email}, #{nickName}, #{status} )
     </insert>
+
+    <update id="updateUser" parameterType="User">
+        UPDATE user
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="id != null and id != ''"> id = #{id}, </if>
+            <if test="password != null and password != ''"> password = #{password}, </if>
+            <if test="email != null and email != ''"> email = #{email}, </if>
+            <if test="nickName != null and nickName != ''"> nick_name = #{nickName}, </if>
+            <if test="status != null and status != ''"> status = #{status}, </if>
+        </trim>
+        WHERE 1=1
+            AND user_oid = #{userOid}
+    </update>
 
 </mapper>
