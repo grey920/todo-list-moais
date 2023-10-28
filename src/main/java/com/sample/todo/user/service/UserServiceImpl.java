@@ -8,6 +8,7 @@ import com.sample.todo.user.repository.UserStatusHistMapper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -20,6 +21,8 @@ import java.util.UUID;
 @Transactional
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
+
+    private final PasswordEncoder passwordEncoder;
 
     private final UserMapper userMapper;
     private final UserStatusHistMapper userStatusHistMapper;
@@ -118,8 +121,9 @@ public class UserServiceImpl implements UserService {
             user.setStatus( User.STATUS_JOIN );
         }
 
-        // TODO. 비밀번호 암호화
-
+        // 비밀번호 암호화
+        String encodedPwd = passwordEncoder.encode( user.getPassword() );
+        user.setPassword( encodedPwd );
 
         /* 회원 등록*/
         User newUser = userMapper.insertUser( user ) > 0 ? user : User.empty();
@@ -154,13 +158,15 @@ public class UserServiceImpl implements UserService {
         //  DB에 유효한 회원 정보 존재하는지 확인 ( id, password 일치하고 가입상태인 경우 )
         UserCnd cnd = new UserCnd();
         cnd.setId( user.getId() );
-        cnd.setPassword( user.getPassword() );
         cnd.setStatus( User.STATUS_JOIN );
+        // pwd 암호화
+        String encodedPasswd = passwordEncoder.encode( user.getPassword() );
+        cnd.setPassword( encodedPasswd );
 
         User dbUser = getUser( cnd );
 
         // validation : 회원 정보가 없으면 에러 메시지 담기
-        if ( ! isValidUser( dbUser, resultMap ) ) {
+        if ( ! isValidUser( user, dbUser, resultMap ) ) {
             return resultMap;
         };
 
@@ -241,11 +247,17 @@ public class UserServiceImpl implements UserService {
      * @param result
      * @return 유효하면 true, 유효하지 않으면 false
      */
-    private boolean isValidUser( User dbUser, HashMap<String, Object > resultMap ) {
+    private boolean isValidUser( User user, User dbUser, HashMap<String, Object > resultMap ) {
 
         // 회원 정보가 없으면 에러 메시지 담기
         if ( dbUser.getUserOid() == null || dbUser.getUserOid().isBlank() ) {
             resultMap.put( "message",  "회원 정보가 없습니다." );
+            return false;
+        }
+
+        // 비밀번호 확인
+        if ( ! passwordEncoder.matches( user.getPassword(), dbUser.getPassword() ) ) {
+            resultMap.put( "message", "비밀번호가 일치하지 않습니다." );
             return false;
         }
 

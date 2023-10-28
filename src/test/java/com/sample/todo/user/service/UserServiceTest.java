@@ -109,10 +109,10 @@ class UserServiceTest {
 
         /* Given */
         User user = new User();
-        user.setId( "papa" );
+        user.setId( "dawa" );
         user.setPassword( "1234qwer" );
-        user.setEmail( "ccc@gmail.com" );
-        user.setNickName( "파파존스" );
+        user.setEmail( "bbb@gmail.com" );
+        user.setNickName( "다와쨩" );
 
         /* When */
         User result = userService.join( user );
@@ -130,7 +130,7 @@ class UserServiceTest {
 
         /* Given */
         User user = new User();
-        user.setId( "grey" );
+        user.setId( "dawa" );
         user.setPassword( "1234qwer" );
 
         /* When */
@@ -181,6 +181,26 @@ class UserServiceTest {
         /* Then */
         Assertions.assertThat( ( Boolean ) result.get( "success" ) ).isEqualTo( false );
         Assertions.assertThat( result.get( "message") ).isEqualTo( "회원 정보가 없습니다." );
+
+    }
+
+    @Test
+    @DisplayName( "로그인 실패 > 비밀번호 오류" )
+    public void login4() {
+
+        /* Given */
+        User user = new User();
+        user.setId( "grey" );
+        user.setPassword( "1234" );
+
+        /* When */
+        Map< String, Object > result = userService.login( user );
+
+        System.out.println( "result = " + result );
+
+        /* Then */
+        Assertions.assertThat( ( Boolean ) result.get( "success" ) ).isEqualTo( false );
+        Assertions.assertThat( result.get( "message") ).isEqualTo( "비밀번호가 일치하지 않습니다." );
 
     }
 
