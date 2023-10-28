@@ -2,9 +2,12 @@ package com.sample.todo.user.service;
 
 import com.sample.todo.user.domain.User;
 import com.sample.todo.user.domain.UserCnd;
+import com.sample.todo.user.domain.UserStatusHist;
 import com.sample.todo.user.repository.UserMapper;
+import com.sample.todo.user.repository.UserStatusHistMapper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -12,12 +15,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     private final UserMapper userMapper;
+    private final UserStatusHistMapper userStatusHistMapper;
 
     /**
      * 회원 단건 조회
@@ -120,7 +125,7 @@ public class UserServiceImpl implements UserService{
         User newUser = userMapper.insertUser( user ) > 0 ? user : User.empty();
 
         /* 회원 상태 이력 등록 */
-        // TODO. 회원 상태 이력 등록
+        insertUserStatusHist( newUser );
 
         return newUser;
     }
@@ -158,8 +163,6 @@ public class UserServiceImpl implements UserService{
         if ( ! isValidUser( dbUser, resultMap ) ) {
             return resultMap;
         };
-
-        // todo. 로그인 이력
 
         resultMap.put( "success", true );
         resultMap.put( "message", dbUser );
@@ -210,7 +213,7 @@ public class UserServiceImpl implements UserService{
         User result = updateUser( updateUser );
 
         // 변경 이력 등록
-        // TODO. 변경 이력 등록
+        insertUserStatusHist( user );
 
         return result;
     }
@@ -253,5 +256,19 @@ public class UserServiceImpl implements UserService{
         }
 
         return true;
+    }
+
+    private void insertUserStatusHist( User user ) {
+
+        UserStatusHist statusHist = new UserStatusHist();
+        statusHist.setUserStatusHistOid( UUID.randomUUID().toString() ); // oid 생성
+        statusHist.setUserOid( user.getUserOid() );
+        statusHist.setStatus( user.getStatus() );
+
+        int result = userStatusHistMapper.insertUserStatusHist( statusHist );
+
+        if ( result <= 0 ) {
+            log.error( "insertUserStatusHist ::: 회원 '{}' 이력 등록 실패 - {}", user.getStatus(), user.getUserOid() );
+        }
     }
 }

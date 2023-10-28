@@ -12,20 +12,20 @@ CREATE TABLE `USER` (
 );
 
 CREATE TABLE `USER_STATUS_HIST` (
-                                    `user_status_hist_oid`	varchar(11)	NOT NULL	COMMENT '회원 상태이력 OID',
-                                    `user_oid`	varchar(11)	NOT NULL	COMMENT '회원 OID (pk)',
-                                    `status`	char	NOT NULL	COMMENT '회원 상태',
-                                    `input_date_time`	timestamp	NULL	COMMENT '회원 상태 등록일시'
+                                    `user_status_hist_oid`	varchar(255)	NOT NULL	COMMENT '회원 상태이력 OID',
+                                    `user_oid`	            varchar(255)	NOT NULL	COMMENT '회원 OID (pk)',
+                                    `status`	            char	        NOT NULL	COMMENT '회원 상태',
+                                    `input_date_time`	    timestamp	    NULL	    COMMENT '회원 상태 등록일시'
 );
 
 CREATE TABLE `ITEM` (
-                        `item_oid`	varchar(11)	NOT NULL	COMMENT '할 일 아이템 OID',
-                        `user_oid`	varchar(11)	NOT NULL	COMMENT '회원 OID (pk)',
-                        `contents`	varchar(255)	NULL	COMMENT '할 일 내용',
-                        `status`	char	NULL	COMMENT '아이템 상태',
-                        `input_date_time`	timestamp	NULL	COMMENT '아이템 등록일시',
-                        `mod_date_time`	timestamp	NULL	COMMENT '아이템 수정일시',
-                        `del_date_time`	timestamp	NULL	COMMENT '아이템 삭제일시'
+                        `item_oid`	        varchar(255)	NOT NULL	COMMENT '할 일 아이템 OID',
+                        `user_oid`	        varchar(255)	NOT NULL	COMMENT '회원 OID (pk)',
+                        `contents`	        varchar(255)	NULL	    COMMENT '할 일 내용',
+                        `status`	        char	        NULL	    COMMENT '아이템 상태',
+                        `input_date_time`	timestamp	    NULL	    COMMENT '아이템 등록일시',
+                        `mod_date_time`	    timestamp	    NULL	    COMMENT '아이템 수정일시',
+                        `del_date_time`	    timestamp	    NULL	    COMMENT '아이템 삭제일시'
 );
 
 

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sample.todo.user.repository.UserStatusHistMapper">
+
+    <sql id="searchCnd">
+        <if test="userOid != null and userOid != ''">
+            AND user_oid = #{userOid}
+        </if>
+
+    </sql>
+
+    <insert id="insertUserStatusHist" parameterType="UserStatusHist">
+        INSERT INTO user_status_hist ( user_status_hist_oid, user_oid, status,  input_date_time )
+        VALUES ( #{userStatusHistOid}, #{userOid}, #{status},  #{inputDateTime} )
+    </insert>
+
+</mapper>

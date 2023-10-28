@@ -109,10 +109,10 @@ class UserServiceTest {
 
         /* Given */
         User user = new User();
-        user.setId( "dawa" );
+        user.setId( "papa" );
         user.setPassword( "1234qwer" );
-        user.setEmail( "bbb@gmail.com" );
-        user.setNickName( "다와쨩" );
+        user.setEmail( "ccc@gmail.com" );
+        user.setNickName( "파파존스" );
 
         /* When */
         User result = userService.join( user );

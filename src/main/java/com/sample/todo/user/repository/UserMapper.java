@@ -5,7 +5,6 @@ import com.sample.todo.user.domain.UserCnd;
 
 import java.util.List;
 
-//@Mapper
 public interface UserMapper {
 
     /**
