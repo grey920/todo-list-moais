@@ -3,7 +3,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.sample.todo.item.repository.ItemMapper">
+<mapper namespace="com.sample.todo.service.item.repository.ItemMapper">
     <sql id="searchCnd">
         <if test="itemOid != null and itemOid != ''">
             AND item_oid = #{itemOid}

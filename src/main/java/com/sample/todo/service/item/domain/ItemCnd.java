@@ -1,4 +1,4 @@
-package com.sample.todo.item.domain;
+package com.sample.todo.service.item.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,7 +1,6 @@
-package com.sample.todo.user.domain;
+package com.sample.todo.service.user.domain;
 
 import lombok.*;
-import org.springframework.util.StringUtils;
 
 /**
  * 회원 정보 객체
@@ -30,7 +29,7 @@ public class User {
      */
     public static boolean isEmpty( User info ) {
 
-        return info == null || info.getUserOid().isBlank();
+        return info == null || info.getUserOid() == null || info.getUserOid().isBlank();
     }
 
 

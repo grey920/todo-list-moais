@@ -1,6 +1,6 @@
-package com.sample.todo.user.repository;
+package com.sample.todo.service.user.repository;
 
-import com.sample.todo.user.domain.UserStatusHist;
+import com.sample.todo.service.user.domain.UserStatusHist;
 
 public interface UserStatusHistMapper {
 

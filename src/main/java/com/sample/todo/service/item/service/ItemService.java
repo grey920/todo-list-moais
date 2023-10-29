@@ -1,7 +1,7 @@
-package com.sample.todo.item.service;
+package com.sample.todo.service.item.service;
 
-import com.sample.todo.item.domain.Item;
-import com.sample.todo.item.domain.ItemCnd;
+import com.sample.todo.service.item.domain.Item;
+import com.sample.todo.service.item.domain.ItemCnd;
 
 import java.util.List;
 

@@ -1,10 +1,10 @@
-package com.sample.todo.user.service;
+package com.sample.todo.service.user.service;
 
-import com.sample.todo.user.domain.User;
-import com.sample.todo.user.domain.UserCnd;
-import com.sample.todo.user.domain.UserStatusHist;
-import com.sample.todo.user.repository.UserMapper;
-import com.sample.todo.user.repository.UserStatusHistMapper;
+import com.sample.todo.service.user.domain.User;
+import com.sample.todo.service.user.domain.UserCnd;
+import com.sample.todo.service.user.domain.UserStatusHist;
+import com.sample.todo.service.user.repository.UserMapper;
+import com.sample.todo.service.user.repository.UserStatusHistMapper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -99,6 +99,9 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public User join( User user ) {
+        HashMap<String, Object > resultMap = new HashMap<>();
+        resultMap.put( "success", false );
+        resultMap.put( "message", "" );
 
         // userOid 생성
         if ( user.getUserOid() == null || user.getUserOid().isBlank() ){
@@ -107,13 +110,16 @@ public class UserServiceImpl implements UserService {
 
         // validation
         if ( user.getId() == null || user.getId().isBlank() ) {
-            throw new IllegalArgumentException( "회원 id가 비어있습니다." );
+            log.error( "message", "회원 id가 비어있습니다." );
+            return User.empty();
         }
         if ( user.getPassword() == null || user.getPassword().isBlank() ) {
-            throw new IllegalArgumentException( "회원 비밀번호가 비어있습니다." );
+            log.error( "회원 비밀번호가 비어있습니다." );
+            return User.empty();
         }
         if ( user.getNickName() == null || user.getNickName().isBlank() ) {
-            throw new IllegalArgumentException( "회원 닉네임이 비어있습니다." );
+            log.error( "회원 닉네임이 비어있습니다." );
+            return User.empty();
         }
 
         // status가 비어있으면 가입으로 설정
@@ -171,7 +177,7 @@ public class UserServiceImpl implements UserService {
         };
 
         resultMap.put( "success", true );
-        resultMap.put( "message", dbUser );
+        resultMap.put( "user", dbUser );
 
         return resultMap;
     }

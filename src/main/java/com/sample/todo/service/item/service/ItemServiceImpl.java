@@ -1,8 +1,8 @@
-package com.sample.todo.item.service;
+package com.sample.todo.service.item.service;
 
-import com.sample.todo.item.domain.Item;
-import com.sample.todo.item.domain.ItemCnd;
-import com.sample.todo.item.repository.ItemMapper;
+import com.sample.todo.service.item.domain.Item;
+import com.sample.todo.service.item.domain.ItemCnd;
+import com.sample.todo.service.item.repository.ItemMapper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

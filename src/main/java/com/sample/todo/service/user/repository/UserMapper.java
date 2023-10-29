@@ -1,7 +1,7 @@
-package com.sample.todo.user.repository;
+package com.sample.todo.service.user.repository;
 
-import com.sample.todo.user.domain.User;
-import com.sample.todo.user.domain.UserCnd;
+import com.sample.todo.service.user.domain.User;
+import com.sample.todo.service.user.domain.UserCnd;
 
 import java.util.List;
 

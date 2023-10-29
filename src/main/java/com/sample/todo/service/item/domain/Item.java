@@ -1,6 +1,5 @@
-package com.sample.todo.item.domain;
+package com.sample.todo.service.item.domain;
 
-import com.sample.todo.user.domain.User;
 import lombok.*;
 
 import java.time.LocalDateTime;

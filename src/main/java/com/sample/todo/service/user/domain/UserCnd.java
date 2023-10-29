@@ -1,4 +1,4 @@
-package com.sample.todo.user.domain;
+package com.sample.todo.service.user.domain;
 
 import lombok.*;
 

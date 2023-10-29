@@ -1,7 +1,8 @@
-package com.sample.todo.item.service;
+package com.sample.todo.service.item.service;
 
-import com.sample.todo.item.domain.Item;
-import com.sample.todo.item.domain.ItemCnd;
+import com.sample.todo.service.item.domain.Item;
+import com.sample.todo.service.item.domain.ItemCnd;
+import com.sample.todo.service.item.service.ItemService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -37,7 +38,7 @@ class ItemServiceTest {
         /* Given */
         Item item = new Item();
         item.setUserOid( userOid );
-//        item.setContents( "첫 등록" );
+        item.setContents( "등록테스트22222" );
         item.setInputDateTime( LocalDateTime.now() );
 
         /* When */

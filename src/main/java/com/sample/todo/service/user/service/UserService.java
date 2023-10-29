@@ -1,9 +1,8 @@
-package com.sample.todo.user.service;
+package com.sample.todo.service.user.service;
 
-import com.sample.todo.user.domain.User;
-import com.sample.todo.user.domain.UserCnd;
+import com.sample.todo.service.user.domain.User;
+import com.sample.todo.service.user.domain.UserCnd;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

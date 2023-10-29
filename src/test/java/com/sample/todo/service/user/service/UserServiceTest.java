@@ -1,7 +1,8 @@
-package com.sample.todo.user.service;
+package com.sample.todo.service.user.service;
 
-import com.sample.todo.user.domain.User;
-import com.sample.todo.user.domain.UserCnd;
+import com.sample.todo.service.user.domain.User;
+import com.sample.todo.service.user.domain.UserCnd;
+import com.sample.todo.service.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -14,7 +15,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.List;
 import java.util.Map;
 
-import static com.sample.todo.user.domain.User.STATUS_WITHDRAW;
+import static com.sample.todo.service.user.domain.User.STATUS_WITHDRAW;
 
 @Slf4j
 @SpringBootTest
