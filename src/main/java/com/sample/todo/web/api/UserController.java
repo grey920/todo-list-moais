@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 
+import static com.sample.todo.web.util.SessionUtil.SESSION_ATTR_KEY_USER;
 import static org.springframework.http.ResponseEntity.ok;
 
 /**
@@ -80,13 +81,13 @@ public class UserController {
         /* session */
         // 로그인 성공시 세션에 사용자 정보 저장
         HttpSession session = request.getSession( true );
-        session.setAttribute( "user", result.get( "user" ) );
+        session.setAttribute( SESSION_ATTR_KEY_USER, result.get( SESSION_ATTR_KEY_USER ) );
         session.setMaxInactiveInterval( 60 * 60 ); // 1시간
 
         // sessionList에 세션 저장
         sessionList.put( session.getId(), session );
 
-        log.info( "로그인 성공 = {}", result.get( "user" ) );
+        log.info( "로그인 성공 = {}", result.get( SESSION_ATTR_KEY_USER ) );
 
         return ResponseEntity.ok( result );
     }
@@ -105,7 +106,7 @@ public class UserController {
 
         if ( session != null ) {
 
-            User userInfo = ( User ) session.getAttribute( "user" );
+            User userInfo = ( User ) session.getAttribute( SESSION_ATTR_KEY_USER );
             log.debug( "로그아웃 = {}", userInfo == null ? "userInfo가 null입니다" : userInfo.getId() );
 
             sessionList.remove( session.getId() );
@@ -129,7 +130,7 @@ public class UserController {
 
         while ( elements.hasMoreElements() ) {
             HttpSession session = ( HttpSession ) elements.nextElement();
-            User user = ( User ) session.getAttribute( "user" );
+            User user = ( User ) session.getAttribute( SESSION_ATTR_KEY_USER );
             lists.put( session.getId(), user.getUserOid() );
         }
 
@@ -143,7 +144,7 @@ public class UserController {
      * @param userInfo
      * @return
      */
-    @PostMapping( "/update" )
+    @PutMapping( "/update" )
     public ResponseEntity<?> update( @RequestBody User userInfo ) {
 
         User user = userService.updateUser( userInfo );
@@ -159,7 +160,7 @@ public class UserController {
      * @param userInfo
      * @return
      */
-    @PostMapping( "/update/status" )
+    @PutMapping( "/update/status" )
     public ResponseEntity<?> updateUserStatus( @RequestBody User userInfo ) {
 
         User user = userService.updateUserStatus( userInfo );

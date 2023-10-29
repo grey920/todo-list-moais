@@ -90,7 +90,7 @@ class ItemServiceTest {
     public void getLastItem() {
 
         /* When */
-        Item lastItem = itemService.getLastItem( userOid );
+        Item lastItem = itemService.getLastItem();
         log.info( "lastItem : {}", lastItem );
 
         /* Then */

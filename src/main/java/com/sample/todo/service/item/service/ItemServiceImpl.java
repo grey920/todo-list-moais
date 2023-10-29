@@ -3,6 +3,7 @@ package com.sample.todo.service.item.service;
 import com.sample.todo.service.item.domain.Item;
 import com.sample.todo.service.item.domain.ItemCnd;
 import com.sample.todo.service.item.repository.ItemMapper;
+import com.sample.todo.web.util.SessionUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,10 +29,8 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public Item createItem( Item item ) {
 
-        // validation : user정보 없으면 null 객체 반환
         if ( item.getUserOid() == null || item.getUserOid().isBlank() ) {
-            log.error( "userOid is null or blank" );
-            return Item.empty();
+            item.setUserOid( SessionUtil.getUser().getUserOid() );
         }
 
         // oid 생성
@@ -54,10 +53,8 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public List< Item > listAllItem( ItemCnd cnd ) {
 
-        // validation : user정보 없으면 빈 목록 반환
         if ( cnd.getUserOid() == null || cnd.getUserOid().isBlank() ) {
-            log.error( "userOid is null or blank" );
-            return Collections.emptyList();
+            cnd.setUserOid( SessionUtil.getUser().getUserOid() );
         }
 
         return itemMapper.listAllItem( cnd );
@@ -66,20 +63,13 @@ public class ItemServiceImpl implements ItemService {
     /**
      * 회원의 가장 최근 할 일 아이템 정보 조회
      * todo. 상태 상관없이 가장 최근인지, 아님 할 일(T) 상태의 아이템 중 최근인지 확인 필요
-     * @param userOid
      * @return
      */
     @Override
-    public Item getLastItem( String userOid ) {
-
-        // validation : user정보 없으면 null 객체 반환
-        if ( userOid == null || userOid.isBlank() ) {
-            log.error( "userOid is null or blank" );
-            return Item.empty();
-        }
+    public Item getLastItem() {
 
         ItemCnd cnd = new ItemCnd();
-        cnd.setUserOid( userOid );
+        cnd.setUserOid( SessionUtil.getUser().getUserOid() );
         cnd.setStatus( Item.ITEM_STATUS_TODO ); // 할 일 상태인 아이템에서만 조회
 
         return itemMapper.getLastItemByUserOid( cnd ) == null ? Item.empty() : itemMapper.getLastItemByUserOid( cnd );
@@ -87,7 +77,6 @@ public class ItemServiceImpl implements ItemService {
 
     /**
      * 할 일 아이템 상태 수정
-     * fixme. session에서 userOid 가져오는 방식으로 변경 필요
      * @param item
      * @return
      */
@@ -113,13 +102,13 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public Item updateItem( Item item ) {
         // validation : userOid, itemOid null 객체 반환
-        if ( item.getUserOid() == null || item.getUserOid().isBlank() ) {
-            log.error( "userOid is null or blank" );
-            return Item.empty();
-        }
         if ( item.getItemOid() == null || item.getItemOid().isBlank() ) {
             log.error( "itemOid is null or blank" );
             return Item.empty();
+        }
+
+        if ( item.getUserOid() == null || item.getUserOid().isBlank() ) {
+            item.setUserOid( SessionUtil.getUser().getUserOid() );
         }
 
         // 수정일시 추가
@@ -137,10 +126,10 @@ public class ItemServiceImpl implements ItemService {
      * @return
      */
     @Override
-    public Item deleteItem( String userOid, String itemOid ) {
+    public Item deleteItem( String itemOid ) {
         Item item = new Item();
         item.setItemOid( itemOid );
-        item.setUserOid( userOid );
+        item.setUserOid( SessionUtil.getUser().getUserOid() );
 
         // delDateTime 추가
         item.setDeleteYn( "Y" );
