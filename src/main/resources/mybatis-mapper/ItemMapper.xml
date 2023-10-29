@@ -20,7 +20,7 @@
 
         <!-- 검색어 -->
         <if test="searchText != null and searchText != ''">
-            AND contents in #{searchText}
+            AND upper( contents ) like upper( concat( '%', #{searchText}, '%' ))
         </if>
 
         <if test="searchFromDate != null and searchToDate != null">
