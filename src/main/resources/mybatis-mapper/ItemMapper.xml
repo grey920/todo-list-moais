@@ -5,29 +5,108 @@
 
 <mapper namespace="com.sample.todo.item.repository.ItemMapper">
     <sql id="searchCnd">
+        <if test="itemOid != null and itemOid != ''">
+            AND item_oid = #{itemOid}
+        </if>
         <if test="userOid != null and userOid != ''">
             AND user_oid = #{userOid}
         </if>
+        <if test="status != null and status != ''">
+            AND status = #{status}
+        </if>
+        <if test="deleteYn != null and deleteYn != ''">
+            AND delete_yn = #{deleteYn}
+        </if>
+
+        <!-- 검색어 -->
+        <if test="searchText != null and searchText != ''">
+            AND contents in #{searchText}
+        </if>
+
+        <if test="searchFromDate != null and searchToDate != null">
+            AND input_date_time BETWEEN #{searchFromDate} AND #{searchToDate}
+        </if>
+
 
     </sql>
 
+    <select id="listAllItem" parameterType="ItemCnd" resultType="Item">
+        /* listAllItem 아이템 조회*/
+        SELECT
+            item_oid
+            , user_oid
+            , contents
+            , status
+            , delete_yn
+            , input_date_time
+            , mod_date_time
+            , del_date_time
+        FROM item
+        WHERE 1=1
+        <include refid="searchCnd"/>
+    </select>
+
+    <select id="getItem" parameterType="ItemCnd" resultType="Item">
+        SELECT *
+        FROM
+            (
+                SELECT
+                    ROW_NUMBER() OVER( ORDER BY input_date_time DESC ) RNUM
+                    , item_oid
+                    , user_oid
+                    , contents
+                    , status
+                    , delete_yn
+                    , input_date_time
+                    , mod_date_time
+                    , del_date_time
+                FROM item
+                WHERE 1=1
+                    <include refid="searchCnd"/>
+            ) X
+        WHERE RNUM = 1
+    </select>
+
+    <select id="getLastItemByUserOid" parameterType="ItemCnd" resultType="Item">
+        SELECT *
+        FROM
+        (
+            SELECT
+            ROW_NUMBER() OVER( ORDER BY input_date_time DESC ) RNUM
+            , item_oid
+            , user_oid
+            , contents
+            , status
+            , delete_yn
+            , input_date_time
+            , mod_date_time
+            , del_date_time
+            FROM item
+            WHERE 1=1
+                <include refid="searchCnd"/>
+                AND del_date_time IS NULL
+        ) X
+        WHERE RNUM = 1
+    </select>
+
 
     <insert id="insertItem" parameterType="Item">
-        INSERT INTO item ( item_oid, user_oid, contents,  status, input_date_time, mod_date_time, del_date_time )
-        VALUES ( #{itemOid}, #{userOid}, #{contents},  #{status}, #{inputDateTime}, #{modDateTime} , #{delDateTime} )
+        INSERT INTO item ( item_oid, user_oid, contents,  status, delete_yn, input_date_time, mod_date_time, del_date_time )
+        VALUES ( #{itemOid}, #{userOid}, #{contents},  #{status}, #{deleteYn}, #{inputDateTime}, #{modDateTime} , #{delDateTime} )
     </insert>
 
     <update id="updateItem" parameterType="Item">
         UPDATE item
         <trim prefix="SET" suffixOverrides=",">
-           <!-- <if test="id != null and id != ''"> id = #{id}, </if>
-            <if test="password != null and password != ''"> password = #{password}, </if>
-            <if test="email != null and email != ''"> email = #{email}, </if>
-            <if test="nickName != null and nickName != ''"> nick_name = #{nickName}, </if>
-            <if test="status != null and status != ''"> status = #{status}, </if>-->
+           <if test="contents != null and contents != ''"> contents = #{contents}, </if>
+            <if test="status != null and status != ''"> status = #{status}, </if>
+            <if test="deleteYn != null and deleteYn != ''"> delete_yn = #{deleteYn}, </if>
+            <if test="modDateTime != null"> mod_date_time = #{modDateTime}, </if>
+            <if test="delDateTime != null"> del_date_time = #{delDateTime}, </if>
         </trim>
         WHERE 1=1
             AND item_oid = #{itemOid}
+            AND user_oid = #{userOid}
     </update>
 
 </mapper>

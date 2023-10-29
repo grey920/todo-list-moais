@@ -15,13 +15,15 @@ public class Item {
     public static final String ITEM_STATUS_ING = "I";
     public static final String ITEM_STATUS_DONE = "D";
 
-    private String itemOid;                     // 아이템 OID
-    private String userOid;                     // 사용자 OID
-    private String contents;                     // 내용
-    private String status = ITEM_STATUS_TODO;   // 상태
-    private LocalDateTime inputDateTime;        // 입력일시
-    private LocalDateTime modDateTime;          // 수정일시
-    private LocalDateTime delDateTime;          // 삭제일시
+    private String itemOid;                         // 아이템 OID
+    private String userOid;                         // 사용자 OID
+    private String contents;                        // 내용
+    private String status = ITEM_STATUS_TODO;       // 상태
+    private String deleteYn = "N";                  // 삭제여부 (기본값 N)
+
+    private LocalDateTime inputDateTime;            // 입력일시
+    private LocalDateTime modDateTime;              // 수정일시
+    private LocalDateTime delDateTime;              // 삭제일시
 
     /**
      * 자신의 객체가 비워져 있는지 체크.

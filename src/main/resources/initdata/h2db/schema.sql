@@ -23,6 +23,7 @@ CREATE TABLE `ITEM` (
                         `user_oid`	        varchar(255)	NOT NULL	COMMENT '회원 OID (pk)',
                         `contents`	        varchar(255)	NULL	    COMMENT '할 일 내용',
                         `status`	        char	        NULL	    COMMENT '아이템 상태',
+                        `delete_yn`	        char	        NULL	    COMMENT '아이템 삭제여부',
                         `input_date_time`	timestamp	    NULL	    COMMENT '아이템 등록일시',
                         `mod_date_time`	    timestamp	    NULL	    COMMENT '아이템 수정일시',
                         `del_date_time`	    timestamp	    NULL	    COMMENT '아이템 삭제일시'
